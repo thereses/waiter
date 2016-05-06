@@ -1,0 +1,48 @@
+#!/bin/bash
+set -e
+
+RUN_DIR=/var/vcap/sys/run/waiter/
+PIDFILE=${RUN_DIR}/pidfile
+PACKAGE_DIR=/var/vcap/packages/waiter
+
+export PATH=/var/vcap/packages/ruby/bin:$PATH
+export BUNDLE_GEMFILE=/var/vcap/packages/waiter/Gemfile
+
+case $1 in
+  start)
+    mkdir -p $RUN_DIR
+
+    echo $$ > $PIDFILE
+
+    export OM_URL=<% p("waiter.om_url") %>
+    export USERNAME=<% p("waiter.om_username") %>
+    export PASSWORD=<% p("waiter.om_password") %>
+    <% if_p("waiter.send_to_email_boolean") do %>
+    export EMAIL=<% p("waiter.email") %>
+    export SMTP_ADDRESS=<% p("waiter.smtp_address") %>
+    export SMTP_PORT=<% p("waiter.smtp_port") %>
+    export SMTP_HELO=<% p("waiter.smtp_helo") %>
+    export FROM_EMAIL=<% p("waiter.from_email") %>
+    export SECRET=<% p("waiter.secret") %>
+    <% end %>
+    <% if_p("waiter.send_to_slack_boolean") do %>
+    export SLACK_IDS=<% p("waiter.slack_ids") %>
+    export SLACK_API_TOKEN=<% p("waiter.slack_api_token") %>
+    <% end %>
+    cd $PACKAGE_DIR
+    bundle install
+    bundle exec ruby waiter.rb &
+  ;;
+
+  stop)
+    PID=$(head -1 ${PIDFILE})
+    kill ${PID}
+    while [ -e /proc/${PID} ]; do sleep 0.1; done
+    rm -f ${PIDFILE}
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}"
+  ;;
+
+esac

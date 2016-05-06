@@ -1,0 +1,13 @@
+---
+ruby/bundler-1.10.6.gem:
+  object_id: e87ef0c2-f9f5-42fc-80fb-71411d034550
+  sha: 55a37fccd1c0cb5542d468e35d3be46dd0667f73
+  size: 251392
+ruby/ruby-2.2.3.tar.gz:
+  object_id: 1bd31b96-0a05-40d5-acf4-175b3ac2f5ce
+  sha: 0d9e158534cb31e72740138b8f697b57b448e5c3
+  size: 16626772
+ruby/rubygems-2.4.8.tgz:
+  object_id: 69d96d0c-d34c-44e1-bb09-9340f483fe36
+  sha: 0db6b2f1cdd2267fe19f1f875057c2f2ce9f5696
+  size: 447712

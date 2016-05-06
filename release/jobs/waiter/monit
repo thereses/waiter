@@ -1,0 +1,5 @@
+check process waiter
+  with pidfile /var/vcap/sys/run/waiter/pidfile
+  start program "/var/vcap/jobs/waiter/bin/ctl start"
+  stop program "/var/vcap/jobs/waiter/bin/ctl stop"
+  group vcap

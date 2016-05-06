@@ -1,0 +1,19 @@
+---
+name: waiter
+templates:
+  ctl.erb: bin/ctl
+
+packages:
+  - ruby
+  - waiter
+
+properties:
+  waiter.om_url:
+    description: "OpsManager url"
+  waiter.om_username:
+    description: "OpsManager username"
+  waiter.om_password:
+    description: "OpsManager password"
+  product.deployment_name:
+    description: 'deployment name for the product'
+    default: Waiter

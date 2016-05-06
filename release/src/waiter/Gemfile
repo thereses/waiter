@@ -1,0 +1,10 @@
+# A sample Gemfile
+source "https://rubygems.org"
+
+gem "cf-uaa-lib"
+gem 'terminal-notifier' if RUBY_PLATFORM =~ /darwin/i
+gem 'slack-ruby-bot'
+gem 'celluloid-io'
+gem 'pry'
+gem 'slack-ruby-client'
+
