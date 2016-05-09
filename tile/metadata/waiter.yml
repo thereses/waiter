@@ -1,6 +1,6 @@
 ---
 name: Waiter
-product_version: "1.0.7"
+product_version: "1.0.11"
 metadata_version: "1.7"
 label: 'Ops Manager: Your Perfect Waiter'
 description: "Ops Manager installation notifier"
@@ -13,13 +13,16 @@ stemcell_criteria:
 releases:
   - name: waiter
     file: waiter-1.tgz
-    version: "0+dev.8"
+    version: "0+dev.11"
 
 form_types:
   - name: main
     label: Options
     description: Enter your details
     property_inputs:
+      - reference: .waiter.om_url
+        label: 'Ops Manager URL'
+        description: 'URL for OpsManager'
       - reference: .waiter.om_credentials
         label: 'Ops Manager credentials'
         description: 'Credentials for OpsManager'
@@ -91,14 +94,15 @@ job_types:
   - name: waiter
     manifest: |
       waiter:
+        om_url: (( .waiter.om_url.value ))
         email: (( .waiter.email.value ))
         smtp_address: (( .waiter.smtp_address.value ))
         smtp_port: (( .waiter.smtp_port.value ))
         smtp_helo: (( .waiter.smtp_helo.value ))
         from_email: (( .waiter.email_credentials.identity ))
         from_password: (( .waiter.email_credentials.password ))
-        username: (( .waiter.om_credentials.identity ))
-        password: (( .waiter.om_credentials.password ))
+        om_username: (( .waiter.om_credentials.identity ))
+        om_password: (( .waiter.om_credentials.password ))
         send_to_email_boolean: (( .waiter.send_to_email_boolean.value ))
         send_to_slack_boolean: (( .waiter.send_to_slack_boolean.value ))
         slack_ids: (( .waiter.slack_ids.value ))
@@ -138,6 +142,10 @@ job_types:
         configurable: true
         default: 1
     property_blueprints:
+      - name: om_url
+        type: http_url
+        configurable: true
+        optional: false
       - name: om_credentials
         type: simple_credentials
         configurable: true

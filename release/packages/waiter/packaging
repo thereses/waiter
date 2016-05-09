@@ -1,6 +1,11 @@
 # abort script on any command that exits with a non zero value
 set -e
 
-rm .bundle/config
+ rsync -a waiter/ ${BOSH_INSTALL_TARGET}
+ cd ${BOSH_INSTALL_TARGET}
 
-bundle install
+ export PATH=/var/vcap/packages/ruby/bin:$PATH;
+
+ rm .bundle/config
+
+ /var/vcap/packages/ruby/bin/bundle install --local --deployment

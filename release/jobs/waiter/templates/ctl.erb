@@ -30,7 +30,6 @@ case $1 in
     export SLACK_API_TOKEN=<% p("waiter.slack_api_token") %>
     <% end %>
     cd $PACKAGE_DIR
-    bundle install
     bundle exec ruby waiter.rb &
   ;;
 

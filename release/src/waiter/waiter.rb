@@ -53,7 +53,7 @@ loop do
   start_time = Time.now
   while waiter.is_installing?
     print "."
-    sleep 60
+    sleep 30
   end
 
   end_time = Time.now
@@ -94,11 +94,13 @@ loop do
     notifiers << SlackNotifier.new(ENV['SLACK_IDS'].split(','))
   end
 
-  message = "Ops Manager #{ENV['OM_URL']} installation " + waiter.status + ".It took " + duration(end_time - start_time) + "."
+  message = "Ops Manager #{ENV['OM_URL']} installation " + waiter.status + ". It took " + duration(end_time - start_time) + "."
   if RUBY_PLATFORM =~ /darwin/i
     require 'terminal-notifier'
     notifiers << MacNotifier.new
   end
 
   notifiers.each { |notifier| notifier.send_status(message) }
+  puts
+  puts message
 end
